@@ -8,12 +8,22 @@ var app = require('../app');
 var debug = require('debug')('defaultexpress:server');
 var http = require('http');
 
+var setting = require('../setting');
+var process = require('process');
+
+
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3000');
+var port = normalizePort(setting.port || '3000');
 app.set('port', port);
+
+// output pid to log/servier.pid
+fs.open('log/server.pid','w+' , (err,fd) => {
+    fs.write(fd,process.pid);
+});
+
 
 /**
  * Create HTTP server.
